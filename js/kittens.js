@@ -120,7 +120,7 @@ class Engine {
         var enemySpot;
         // Keep looping until we find a free enemy spot at random
 
-        // ORIGINAL CODE: 
+        // ORIGINAL CODE:
         // while (!enemySpot || this.enemies[enemySpot]) {
 
         // FIXED CODE:
@@ -128,7 +128,7 @@ class Engine {
         while (!enemySpot && this.enemies[enemySpot]) {
             enemySpot = Math.floor(Math.random() * enemySpots);
         }
-        
+
         this.enemies[enemySpot] = new Enemy(enemySpot * ENEMY_WIDTH);
     }
 
@@ -205,10 +205,16 @@ class Engine {
 
     isPlayerDead() {
       var state = false; 
+      this.enemies.forEach((enemy) => {
+        if ((enemy.x >= this.player.x) && (enemy.x < this.player.x + PLAYER_WIDTH)) {
+            if ((enemy.y + ENEMY_HEIGHT >= this.player.y)) {
+              state = true; 
+            }
+        }
+      }); 
+      return state;
     }
 }
-
-
 
 
 
