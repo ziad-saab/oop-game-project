@@ -119,10 +119,16 @@ class Engine {
 
         var enemySpot;
         // Keep looping until we find a free enemy spot at random
-        while (!enemySpot || this.enemies[enemySpot]) {
+
+        // ORIGINAL CODE: 
+        // while (!enemySpot || this.enemies[enemySpot]) {
+
+        // FIXED CODE:
+        // - as soon as we have a value, we dont need to loop anymore... dont use or
+        while (!enemySpot && this.enemies[enemySpot]) {
             enemySpot = Math.floor(Math.random() * enemySpots);
         }
-
+        
         this.enemies[enemySpot] = new Enemy(enemySpot * ENEMY_WIDTH);
     }
 
