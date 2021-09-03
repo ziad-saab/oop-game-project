@@ -204,8 +204,7 @@ class Engine {
     }
 
     isPlayerDead() {
-        // TODO: fix this function!
-        return false;
+      var state = false; 
     }
 }
 
