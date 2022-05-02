@@ -17,7 +17,7 @@ var RIGHT_ARROW_CODE = 39;
 var MOVE_LEFT = 'left';
 var MOVE_RIGHT = 'right';
 
-var lives = 1
+var lives = 3
 
 // Preload game images
 var images = {};
