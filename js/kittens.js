@@ -17,6 +17,8 @@ var RIGHT_ARROW_CODE = 39;
 var MOVE_LEFT = 'left';
 var MOVE_RIGHT = 'right';
 
+var lives = 3
+
 // Preload game images
 var images = {};
 ['enemy.png', 'stars.png', 'player.png'].forEach(imgName => {
@@ -27,10 +29,14 @@ var images = {};
 
 
 
-
-
-class Enemy {
+class Entity{
+    render(ctx) {
+        ctx.drawImage(this.sprite, this.x, this.y);
+    }
+}
+class Enemy extends Entity {
     constructor(xPos) {
+        super()
         this.x = xPos;
         this.y = -ENEMY_HEIGHT;
         this.sprite = images['enemy.png'];
@@ -44,12 +50,13 @@ class Enemy {
     }
 
     render(ctx) {
-        ctx.drawImage(this.sprite, this.x, this.y);
+        super.render(ctx)
     }
 }
 
-class Player {
+class Player extends Entity {
     constructor() {
+        super()
         this.x = 2 * PLAYER_WIDTH;
         this.y = GAME_HEIGHT - PLAYER_HEIGHT - 10;
         this.sprite = images['player.png'];
@@ -66,7 +73,7 @@ class Player {
     }
 
     render(ctx) {
-        ctx.drawImage(this.sprite, this.x, this.y);
+        super.render(ctx)
     }
 }
 
@@ -119,10 +126,9 @@ class Engine {
 
         var enemySpot;
         // Keep looping until we find a free enemy spot at random
-        while (!enemySpot || this.enemies[enemySpot]) {
+        while (enemySpot === undefined || this.enemies[enemySpot]) {
             enemySpot = Math.floor(Math.random() * enemySpots);
         }
-
         this.enemies[enemySpot] = new Enemy(enemySpot * ENEMY_WIDTH);
     }
 
@@ -198,7 +204,17 @@ class Engine {
     }
 
     isPlayerDead() {
-        // TODO: fix this function!
+        const enemySpot = Math.floor(this.player?.x / ENEMY_WIDTH)
+        const overlappingEnemy = this.enemies[enemySpot]
+
+        const yPosOverlaps = overlappingEnemy?.y - this.player?.y >= 54
+        if((this.player.x === overlappingEnemy?.x) && yPosOverlaps) {
+            if(lives === 0) {
+                return true
+            } else {
+                lives--
+            }
+        }
         return false;
     }
 }
